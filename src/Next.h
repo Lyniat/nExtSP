@@ -4,8 +4,6 @@
 #include <WiFi.h>
 #include <string>
 
-#define ID "43750697"
-
 #define SSID_ADD "nExtSP_"
 #define PSSWD_ADD "o--L_"
 
@@ -15,11 +13,12 @@ WiFiClient client;
 
 class ESPNext{
     public:
-        ESPNext(int pin, void(* onReceive)(byte)){
-            _pin = pin;
+        ESPNext(bool isMaster,String id, void(* onReceive)(byte*,int)){
+            _id = id;
             _onReceive = onReceive;
-            pinMode(_pin, INPUT);
-            _isMaster = digitalRead(_pin);
+            _isMaster = isMaster;
+            _counter = 0;
+            _receivedData = (byte*)malloc(250 * sizeof(byte));
 
             if(_isMaster == 1){
                 Serial.println("I am master!");
@@ -29,9 +28,9 @@ class ESPNext{
 
             WiFi.disconnect();
             String SSID = SSID_ADD;
-            SSID += ID;
+            SSID += _id;
             String Password = PSSWD_ADD;
-            Password += ID;
+            Password += _id;
 
             if(_isMaster == 1){
                 WiFi.mode(WIFI_AP);
@@ -74,33 +73,75 @@ class ESPNext{
                 }
             }
             
-
             while (client.available()) 
             {
-                char c = client.read();
-                //Serial.println(c);
-                _onReceive(c);
-            }
-            
+                byte b = client.read();
+                if(b == 255){
+                    _onReceive(_receivedData,_counter);
+                    _counter = 0;
+                    break;
+                }
 
-            if(_isMaster == 1)
-            {
-                Serial.println("sending m");
-                client.write('m');
+                if(b >= 0b00001111){
+                    _receivedData[_counter] = _receivedData[_counter]|b;
+                    _counter++;
+                }else{
+                    _receivedData[_counter] = b;
+                }
             }
-            else
-            {
-                Serial.println("sending s");
-                client.write('s');
-            }  
 
+/*
+            if(_counter > 0){
+                _onReceive(_receivedData,_counter);
+            }
+            */
+
+
+
+
+                /*
+                if(counter > 249){
+                    break;
+                }
+                byte b = client.read();
+
+                _receivedData[counter] = b;
+                counter++;
+                */
+
+/*
+            if(counter > 0){
+                _onReceive(_receivedData,counter);
+            }
+            */
         }
+
+        void send(byte* bytes, int len){
+            for(auto i = 0; i < len; i++){
+                client.write(bytes[i]&0b00001111);
+                client.write(bytes[i]&0b11110000);
+            }
+            client.write(0b11111111);
+        }
+
+        void send(String s){
+            const char* cString = s.c_str();
+
+            for(auto i = 0; i < s.length(); i++){
+                client.write(cString[i]&0b00001111);
+                client.write(cString[i]&0b11110000);
+            }
+            client.write(0b11111111);
+        }
+
     private:
         const uint16_t port = 1515;
         const char * host = "192.168.4.1";
-        int _pin;
+        String _id;
         int _isMaster;
-        void(*_onReceive)(byte);
+        int _counter;
+        byte * _receivedData;
+        void(*_onReceive)(byte*,int);
 };
 
 #endif
