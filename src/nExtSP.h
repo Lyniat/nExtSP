@@ -20,11 +20,13 @@ class ESPNext{
             _counter = 0;
             _receivedData = (byte*)malloc(250 * sizeof(byte));
 
+            
             if(_isMaster == 1){
                 Serial.println("I am master!");
             }else{
                 Serial.println("I am slave!");
             }
+            
 
             WiFi.disconnect();
             String SSID = SSID_ADD;
@@ -89,31 +91,6 @@ class ESPNext{
                     _receivedData[_counter] = b;
                 }
             }
-
-/*
-            if(_counter > 0){
-                _onReceive(_receivedData,_counter);
-            }
-            */
-
-
-
-
-                /*
-                if(counter > 249){
-                    break;
-                }
-                byte b = client.read();
-
-                _receivedData[counter] = b;
-                counter++;
-                */
-
-/*
-            if(counter > 0){
-                _onReceive(_receivedData,counter);
-            }
-            */
         }
 
         void send(byte* bytes, int len){
@@ -132,6 +109,12 @@ class ESPNext{
                 client.write(cString[i]&0b11110000);
             }
             client.write(0b11111111);
+        }
+
+        void send(byte b){
+            byte* arr = (byte*)malloc(1 * sizeof(byte));
+            arr[0] = b;
+            send(arr,1);
         }
 
     private:
