@@ -2,7 +2,7 @@
 #define ESP_NEXT_H
 
 #include <WiFi.h>
-#include <String.h>
+#include <string>
 
 #define ID "43750697"
 
@@ -33,9 +33,11 @@ class ESPNext{
             Password += ID;
 
             if(_isMaster == 1){
+                WiFi.mode(WIFI_AP);
                 bool result = WiFi.softAP(SSID.c_str(), Password.c_str());
                 server.begin();
             }else{
+                WiFi.mode(WIFI_STA);
                 WiFi.begin(SSID.c_str(), Password.c_str());
         
                 while (WiFi.status() != WL_CONNECTED) {
@@ -49,38 +51,45 @@ class ESPNext{
         }
 
         void update(){
-            if(_isMaster == 1){
-                client = server.available();
-            }else{
-                if (!client.connect(host, port)) {
-                    Serial.println("Connection failed.");
-                    Serial.println("Waiting 5 seconds before retrying...");
-                    delay(5000);
-                    return;
-                }else{
-                    Serial.println("Connected");
+            if(!client.connected())
+            {
+                if(_isMaster == 1)
+                {
+                    client = server.available();
+                }
+                else
+                {
+                    if (!client.connect(host, port)) 
+                    {
+                        Serial.println("Connection failed.");
+                        Serial.println("Waiting 5 seconds before retrying...");
+                        delay(5000);
+                        return;
+                    }
+                    else
+                    {
+                        Serial.println("Connected");
+                    }
                 }
             }
             
-            /*
-            if (!client.available()>0) {
-                Serial.println("not avialbale");
-                return;
-            }
-            */
 
-           if (client.available()) {
+            while (client.available()) 
+            {
                 char c = client.read();
                 Serial.println(c);
             }
             
 
-            if(_isMaster == 1){
+            if(_isMaster == 1)
+            {
                 Serial.println("sending m");
                 client.write('m');
-            }else{
+            }
+            else
+            {
                 Serial.println("sending s");
-                server.write('s');
+                client.write('s');
             }  
 
         }
