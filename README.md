@@ -5,7 +5,7 @@
 
 ## !!!
 This library will be changed in the next few days (of 03.03.19).
-So please keep attention, that your code might break!
+So please keep in mind, that your code might break!
 
 ## Why?
 ESP-Now is nice, but when you need a really simple peer-to-peer connection between two ESP32, it's still too complicated.<br>
