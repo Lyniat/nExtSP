@@ -15,8 +15,9 @@ WiFiClient client;
 
 class ESPNext{
     public:
-        ESPNext(int pin){
+        ESPNext(int pin, void(* onReceive)(byte)){
             _pin = pin;
+            _onReceive = onReceive;
             pinMode(_pin, INPUT);
             _isMaster = digitalRead(_pin);
 
@@ -77,7 +78,8 @@ class ESPNext{
             while (client.available()) 
             {
                 char c = client.read();
-                Serial.println(c);
+                //Serial.println(c);
+                _onReceive(c);
             }
             
 
@@ -98,6 +100,7 @@ class ESPNext{
         const char * host = "192.168.4.1";
         int _pin;
         int _isMaster;
+        void(*_onReceive)(byte);
 };
 
 #endif
