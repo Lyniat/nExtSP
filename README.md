@@ -5,7 +5,7 @@
 
 ## Why?
 ESP-Now is nice, but when you need a really simple peer-to-peer connection between two ESP32, it's still too complicated.<br>
-ESP-Now solves this problem by using only four lines of code!
+nExtSP solves this problem by using only four lines of code!
 
 ```c++
   1. NEXTSP nextsp;
