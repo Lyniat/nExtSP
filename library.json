@@ -1,0 +1,22 @@
+{
+  "name": "nExtSP",
+  "keywords": "esp32, wifi, esp-now, peer-to-peer",
+  "description": "Simple peer-to-peer connection between two ESPs by only 4 lines of code.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/Lyniat/nExtSP"
+  },
+  "authors":
+  [
+    {
+      "name": "Laurin Muth",
+      "email": "laurin.muth@st.oth-regensburg.de",
+      "url": "https://hci.ur.de/people/laurin_muth",
+      "maintainer": true
+    }
+  ],
+  "version": "1.0.0",
+  "frameworks": "arduino",
+  "platforms": "*"
+}
