@@ -79,11 +79,13 @@ class NEXTSP{
             {
                 byte b = client.read();
                 if(b == 255){
-                    _onReceive(_receivedData,_counter);
+                    if(_counter > 0){
+                        _onReceive(_receivedData,_counter);
+                    }
+                    
                     _counter = 0;
                     break;
                 }
-
                 if(b >= 0b00001111){
                     _receivedData[_counter] = _receivedData[_counter]|b;
                     _counter++;
@@ -94,21 +96,37 @@ class NEXTSP{
         }
 
         void send(byte* bytes, int len){
+            byte* toSend = (byte*)malloc((len*2 +1 ) * sizeof(byte));
+
+            int byteNum = 0;
+
             for(auto i = 0; i < len; i++){
-                client.write(bytes[i]&0b00001111);
-                client.write(bytes[i]&0b11110000);
+                toSend[byteNum] = bytes[i]&0b00001111;
+                byteNum++;
+                toSend[byteNum] = bytes[i]&0b11110000;
+                byteNum++;
             }
-            client.write(0b11111111);
+            toSend[byteNum] = 0b11111111;
+            client.write(toSend,(len*2 +1 ));
+            delay(5); // needed to prevent crashing, but not a good solution. should be changed
         }
 
         void send(String s){
             const char* cString = s.c_str();
 
+            byte* toSend = (byte*)malloc((s.length()*2 +1 ) * sizeof(byte));
+
+            int byteNum = 0;
+
             for(auto i = 0; i < s.length(); i++){
-                client.write(cString[i]&0b00001111);
-                client.write(cString[i]&0b11110000);
+                toSend[byteNum] = cString[i]&0b00001111;
+                byteNum++;
+                toSend[byteNum] = cString[i]&0b11110000;
+                byteNum++;
             }
-            client.write(0b11111111);
+            toSend[byteNum] = 0b11111111;
+            client.write(toSend,(s.length()*2 +1 ));
+            delay(5); // needed to prevent crashing, but not a good solution. should be changed
         }
 
         void send(byte b){

@@ -5,11 +5,13 @@ NEXTSP nextsp;
 
 bool isMaster;
 
+bool wasPressed;
+
 void onCallback(byte* b,int length){
   for(auto i = 0; i< length; i++){
-    Serial.print(b[i]); //print receievd bytes
+    //Serial.print(b[i]); //print receieved bytes
   }
-  Serial.println("");
+  //Serial.println("");
   if(b[0] == 'a'){ //if a, turn led on
     digitalWrite(25,1);
   }else{
@@ -18,6 +20,7 @@ void onCallback(byte* b,int length){
 }
 
 void setup() {
+  wasPressed = false;
   Serial.begin(9600);
   Serial.println("started");
   pinMode(33, INPUT); //master / slave switch
@@ -29,18 +32,20 @@ void setup() {
 }
 
 void loop() {
-  if(isMaster){
     bool on = digitalRead(26); // if button is pressed
     if(on){
-      nextsp.send((byte)'a');
-      Serial.println("on");
+      if(wasPressed){
+        nextsp.send((byte)'a');
+        //Serial.println("on");
+        wasPressed = false;
+      }
     }else{
-      Serial.println("off");
-      nextsp.send((byte)'u');
+      if(!wasPressed){
+        //Serial.println("off");
+        nextsp.send((byte)'u');
+        wasPressed = true;
+      }
     }
-  }else{
-    
-  }
   nextsp.update();
 }
 
