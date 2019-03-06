@@ -11,7 +11,7 @@ nExtSP solves this problem by using only four lines of code!
   1. NEXTSP nextsp;
   2. nextsp.begin(isMaster,"43750697",&onCallback); // init espnext
   3. nextsp.send("test");
-  4. next.update();
+  4. nextsp.update();
 ```
 
 ## How?
