@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <nExtSP.h>
 
-ESPNext *next;
+NEXTSP nextsp;
 
 bool isMaster;
 
@@ -25,22 +25,22 @@ void setup() {
   pinMode(26, INPUT); //button
   isMaster = digitalRead(33);
 
-  next = new ESPNext(isMaster,"43750697",&onCallback); // init espnext
+  nextsp.begin(isMaster,"43750697",&onCallback); // init espnext
 }
 
 void loop() {
   if(isMaster){
     bool on = digitalRead(26); // if button is pressed
     if(on){
-      next->send((byte)'a');
+      nextsp.send((byte)'a');
       Serial.println("on");
     }else{
       Serial.println("off");
-      next->send((byte)'u');
+      nextsp.send((byte)'u');
     }
   }else{
     
   }
-  next->update();
+  nextsp.update();
 }
 

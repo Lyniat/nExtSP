@@ -11,9 +11,9 @@ WiFiServer server(1515);
 
 WiFiClient client;
 
-class ESPNext{
+class NEXTSP{
     public:
-        ESPNext(bool isMaster,String id, void(* onReceive)(byte*,int)){
+        void begin(bool isMaster,String id, void(* onReceive)(byte*,int)){
             _id = id;
             _onReceive = onReceive;
             _isMaster = isMaster;
@@ -126,5 +126,6 @@ class ESPNext{
         byte * _receivedData;
         void(*_onReceive)(byte*,int);
 };
+extern NEXTSP nextsp;
 
 #endif
