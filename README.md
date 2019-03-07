@@ -9,7 +9,7 @@ nExtSP solves this problem by using only four lines of code!
 
 ```c++
   1. NEXTSP nextsp;
-  2. nextsp.begin(isMaster,"43750697",&onCallback); // init espnext
+  2. nextsp.begin(isServer,"43750697",&onCallback);
   3. nextsp.send("test");
   4. nextsp.update();
 ```
@@ -26,12 +26,12 @@ nExtSP solves this problem by using only four lines of code!
   }
   
   void setup(){
-  //            boolean, if esp32 is master or slave
+  //            boolean, if esp32 is server or client
   //              |      choose a unique id for every pair
   //              |         |        register callback function
   //              v         v            v
   //...
-  nextsp.begin(isMaster,"43750697",&onCallback);
+  nextsp.begin(isServer,"43750697",&onCallback);
   //...
   }
   
