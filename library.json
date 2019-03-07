@@ -16,7 +16,8 @@
       "maintainer": true
     }
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "license": "MIT",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "espressif8266, espressif32"
 }
