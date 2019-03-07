@@ -17,6 +17,8 @@ nExtSP solves this problem by using only four lines of code!
 ## How?
 
 ```c++
+  #include <nExtSP.h>
+
   NEXTSP nextsp;
   
   void onCallback(byte* b,int length){
