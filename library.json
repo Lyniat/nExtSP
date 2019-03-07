@@ -1,6 +1,6 @@
 {
   "name": "nExtSP",
-  "keywords": "esp32, wifi, esp-now, peer-to-peer",
+  "keywords": "esp32, wifi, esp-now, peer-to-peer, nextsp, next",
   "description": "Simple peer-to-peer connection between two ESPs by only 4 lines of code.",
   "repository":
   {
