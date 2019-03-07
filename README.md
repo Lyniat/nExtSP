@@ -17,13 +17,29 @@ nExtSP solves this problem by using only four lines of code!
 ## How?
 
 ```c++
+  NEXTSP nextsp;
+  
+  void onCallback(byte* b,int length){
+  //...
+  }
+  
+  void setup(){
   //            boolean, if esp32 is master or slave
   //              |      choose a unique id for every pair
   //              |         |        register callback function
   //              v         v            v
-  ...
+  //...
   nextsp.begin(isMaster,"43750697",&onCallback);
-  ...
+  //...
+  }
+  
+  void loop(){
+  //...
+  nextsp.send("test");
+  //...
+  nextsp.update();
+  //...
+  }
 ```
 
 See also example code in repository.
