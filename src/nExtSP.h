@@ -95,7 +95,7 @@ class NEXTSP{
                     _counter = 0;
                     break;
                 }
-                if(b >= 0b00001111){
+                if(b > 0b00001111){
                     _receivedData[_counter] = _receivedData[_counter]|b;
                     _counter++;
                 }else{
