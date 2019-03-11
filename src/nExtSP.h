@@ -1,7 +1,16 @@
 #ifndef ESP_NEXT_H
 #define ESP_NEXT_H
 
+#if defined(ESP8266)
+
+#include <ESP8266WiFi.h>
+
+#else
+
 #include <WiFi.h>
+
+#endif
+
 #include <string>
 
 #define SSID_ADD "nExtSP_"
