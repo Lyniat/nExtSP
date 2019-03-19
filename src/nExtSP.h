@@ -27,6 +27,7 @@ class NEXTSP{
             _onReceive = onReceive;
             _isMaster = isMaster;
             _counter = 0;
+            _flip = false;
             _receivedData = (byte*)malloc(250 * sizeof(byte));
 
             
@@ -91,15 +92,17 @@ class NEXTSP{
                     if(_counter > 0){
                         _onReceive(_receivedData,_counter);
                     }
-                    
                     _counter = 0;
-                    break;
+                    _flip = false;
+                    continue;
                 }
-                if(b > 0b00001111){
+                if(_flip){
                     _receivedData[_counter] = _receivedData[_counter]|b;
                     _counter++;
+                    _flip = !_flip;
                 }else{
                     _receivedData[_counter] = b;
+                    _flip = !_flip;
                 }
             }
         }
@@ -150,6 +153,7 @@ class NEXTSP{
         String _id;
         int _isMaster;
         int _counter;
+        bool _flip;
         byte * _receivedData;
         void(*_onReceive)(byte*,int);
 };
