@@ -1,7 +1,6 @@
 # nExtSP
 ##### nower than ESP-Now
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![HitCount](http://hits.dwyl.io/Lyniat/nExtSP.svg)](http://hits.dwyl.io/Lyniat/nExtSP)
 
 ## Why?
 ESP-Now is nice, but when you need a really simple peer-to-peer like connection between two ESP32, it's still too complicated.<br>
