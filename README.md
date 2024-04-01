@@ -45,9 +45,6 @@ nExtSP solves this problem by using only four lines of code!
 
 See also example code in repository.
 
-## Contribution
-Contribution is always welcome :)
-
 ## License
 * MIT
 * by [Laurin Muth](https://hci.ur.de/people/laurin_muth)
